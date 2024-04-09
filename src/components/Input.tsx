@@ -12,7 +12,7 @@ function Input({ children }: InputProps) {
 }
 
 function Field({ ...props }: TextInputProps) {
-  return (< TextInput className="flex-1 text-white text-base font-regular" {...props} />)
+  return (< TextInput className="flex-1  text-white text-base font-regular" {...props} />)
 }
 
 Input.Field = Field
