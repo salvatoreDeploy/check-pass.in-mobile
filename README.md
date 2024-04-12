@@ -5,3 +5,5 @@
 ### Bibliotecas:
 
 - nativewind
+- react-native-svg
+- react-native-qrcode-svg

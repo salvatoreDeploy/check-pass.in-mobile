@@ -1,17 +1,19 @@
 import { Header } from "@/components/Header";
 import { Credentials } from "@/components/Credentials";
 import { StatusBar } from "expo-status-bar";
-import { View, Text, ScrollView, TouchableOpacity, Alert } from "react-native";
+import { View, Text, ScrollView, TouchableOpacity, Alert, Modal } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import { colors } from "@/styles/colors";
 import { Button } from "@/components/Button";
 import { useState } from "react";
 import * as ImagePicker from "expo-image-picker"
+import { QrCode } from "@/components/QrCode";
 
 
 export default function Ticket() {
 
   const [uriAvatar, setUriAvatar] = useState("")
+  const [expandQRCode, setExpandQRCode] = useState<boolean>(false)
 
   async function handleSelectImage() {
     try {
@@ -31,6 +33,14 @@ export default function Ticket() {
 
   }
 
+  function handleExpandQRCode() {
+    return setExpandQRCode(true)
+  }
+
+  function handleCloseQRCode() {
+    return setExpandQRCode(false)
+  }
+
   return (
 
     <View className="flex-1 bg-green-500">
@@ -39,7 +49,7 @@ export default function Ticket() {
 
       <Header title="Minha Credencial" />
       <ScrollView className="-mt-28 -z-10" contentContainerClassName="px-8 pb-8" showsVerticalScrollIndicator={false}>
-        <Credentials uriAvatar={uriAvatar} onChangeAvatar={handleSelectImage} />
+        <Credentials uriAvatar={uriAvatar} onChangeAvatar={handleSelectImage} onShowQRCode={handleExpandQRCode} />
 
         <FontAwesome name="angle-double-down" size={24} color={colors.gray[300]} className="self-center my-6" />
 
@@ -57,6 +67,17 @@ export default function Ticket() {
           <Text className="text-white font-bold text-center">Remover ingresso</Text>
         </TouchableOpacity>
       </ScrollView>
+
+      <Modal visible={expandQRCode} statusBarTranslucent animationType="slide">
+        <View className="flex-1 bg-green-500 items-center justify-center">
+          <TouchableOpacity activeOpacity={0.7} onPress={handleCloseQRCode}>
+            <QrCode value="teste" size={300} />
+            <Text className="font-bold text-orange-500 text-sm text-center mt-10">
+              Fechar QRCode
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </Modal>
     </View>
 
   )
