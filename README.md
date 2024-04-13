@@ -8,3 +8,5 @@
 - react-native-svg
 - react-native-qrcode-svg
 - axios
+- expo async storage
+- zustand
