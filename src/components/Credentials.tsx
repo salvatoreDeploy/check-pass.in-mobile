@@ -1,19 +1,26 @@
-import { Image, View, ImageBackground, Text, TouchableOpacity } from "react-native";
+import { Image, View, ImageBackground, Text, TouchableOpacity, useWindowDimensions } from "react-native";
 import { Feather } from "@expo/vector-icons"
 import { colors } from "@/styles/colors";
 import { QrCode } from "./QrCode";
 import { BadgesStore } from "@/store/badge-store";
+import { MotiView } from "moti";
 
 type CredentialsProps = {
   badge: BadgesStore
-  uriAvatar?: string
   onChangeAvatar: () => void
   onShowQRCode: () => void
 }
 
-export function Credentials({ onChangeAvatar, uriAvatar, onShowQRCode, badge }: CredentialsProps) {
+export function Credentials({ onChangeAvatar, onShowQRCode, badge }: CredentialsProps) {
+
+  const { height } = useWindowDimensions()
+
   return (
-    <View className="w-full self-stretch items-center">
+    <MotiView
+      from={{ opacity: 0, translateY: -height, rotateZ: "50deg", rotateY: "30deg", rotateX: "30deg" }}
+      animate={{ opacity: 1, translateY: 0, rotateZ: "0deg", rotateY: "0deg", rotateX: "00deg" }}
+      transition={{ type: "spring", damping: 20, rotateZ: { damping: 15, mass: 3 } }}
+      className="w-full self-stretch items-center">
       <Image className="w-24 h-52 z-10" source={require("@/assets/ticket/band.png")} />
 
       <View className="bg-black/20 self-stretch items-center pb-6 border border-white/10 mx-4 rounded-2xl -mt-5">
@@ -27,9 +34,9 @@ export function Credentials({ onChangeAvatar, uriAvatar, onShowQRCode, badge }: 
         </ImageBackground>
 
         {
-          uriAvatar ? (
+          badge.image ? (
             <TouchableOpacity activeOpacity={0.9} onPress={onChangeAvatar}>
-              <Image source={{ uri: uriAvatar }} className="w-36 h-36 rounded-full -mt-24" />
+              <Image source={{ uri: badge.image }} className="w-36 h-36 rounded-full -mt-24" />
             </TouchableOpacity>
           ) : (
             <TouchableOpacity activeOpacity={0.9} className="w-36 h-36 rounded-full -mt-24 bg-gray-400 items-center justify-center" onPress={onChangeAvatar}>
@@ -47,6 +54,6 @@ export function Credentials({ onChangeAvatar, uriAvatar, onShowQRCode, badge }: 
           <Text className="font-bold text-orange-500 text-sm mt-4">Ampliar QRCode</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </MotiView>
   )
 }

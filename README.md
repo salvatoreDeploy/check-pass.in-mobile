@@ -10,3 +10,5 @@
 - axios
 - expo async storage
 - zustand
+- expo reanimated
+- motti
